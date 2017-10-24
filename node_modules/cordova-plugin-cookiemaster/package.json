@@ -1,0 +1,105 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "cordova-plugin-cookiemaster",
+        "scope": null,
+        "escapedName": "cordova-plugin-cookiemaster",
+        "name": "cordova-plugin-cookiemaster",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Users\\Treenity Academy\\Documents\\Cordova\\Demo"
+    ]
+  ],
+  "_from": "cordova-plugin-cookiemaster@latest",
+  "_id": "cordova-plugin-cookiemaster@1.0.5",
+  "_inCache": true,
+  "_location": "/cordova-plugin-cookiemaster",
+  "_nodeVersion": "8.5.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/cordova-plugin-cookiemaster-1.0.5.tgz_1505641236832_0.9124113761354238"
+  },
+  "_npmUser": {
+    "name": "edwardgaoyb",
+    "email": "edwardgaoyb@gmail.com"
+  },
+  "_npmVersion": "5.3.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "cordova-plugin-cookiemaster",
+    "scope": null,
+    "escapedName": "cordova-plugin-cookiemaster",
+    "name": "cordova-plugin-cookiemaster",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-cookiemaster/-/cordova-plugin-cookiemaster-1.0.5.tgz",
+  "_shasum": "0177379eceb5c4e352162008db9c09f8bcf41e2a",
+  "_shrinkwrap": null,
+  "_spec": "cordova-plugin-cookiemaster",
+  "_where": "C:\\Users\\Treenity Academy\\Documents\\Cordova\\Demo",
+  "author": {
+    "name": "Edward Gao"
+  },
+  "bugs": {
+    "url": "https://github.com/edwardgaoyb/cordova-cookie-master/issues"
+  },
+  "cordova": {
+    "id": "com.cordova.plugins.cookiemaster",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "dependencies": {},
+  "description": "This plugin enables the management of cookies in WebViews on iOS and Android as those platforms restrict the use of \"document.cookie\".",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-5cYEH+/85TGmyY+NYdQxLhK6i2RkF57TnQOAtdoz4a3GOycYzD7pGqUBAj2j4DU/KI5As4TwrpZkQS7sX+WO8A==",
+    "shasum": "0177379eceb5c4e352162008db9c09f8bcf41e2a",
+    "tarball": "https://registry.npmjs.org/cordova-plugin-cookiemaster/-/cordova-plugin-cookiemaster-1.0.5.tgz"
+  },
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "gitHead": "406c09b0dbeb962f09227cd908bd1f8ff1b7b5d1",
+  "homepage": "https://github.com/edwardgaoyb/cordova-cookie-master#readme",
+  "keywords": [
+    "cordova",
+    "phonegap",
+    "cookie",
+    "cookies",
+    "cookie-manager",
+    "cookie-plugin",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "edwardgaoyb",
+      "email": "edwardgaoyb@gmail.com"
+    }
+  ],
+  "name": "cordova-plugin-cookiemaster",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edwardgaoyb/cordova-cookie-master.git"
+  },
+  "version": "1.0.5"
+}

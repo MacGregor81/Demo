@@ -1,0 +1,96 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "cordova-plugin-cookieemperor",
+        "scope": null,
+        "escapedName": "cordova-plugin-cookieemperor",
+        "name": "cordova-plugin-cookieemperor",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Users\\Treenity Academy\\Documents\\Cordova\\Demo"
+    ]
+  ],
+  "_from": "cordova-plugin-cookieemperor@latest",
+  "_id": "cordova-plugin-cookieemperor@1.0.0",
+  "_inCache": true,
+  "_location": "/cordova-plugin-cookieemperor",
+  "_nodeVersion": "6.5.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/cordova-plugin-cookieemperor-1.0.0.tgz_1476337408235_0.7132445655297488"
+  },
+  "_npmUser": {
+    "name": "rtk",
+    "email": "rouvenkruse@web.de"
+  },
+  "_npmVersion": "3.10.8",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "cordova-plugin-cookieemperor",
+    "scope": null,
+    "escapedName": "cordova-plugin-cookieemperor",
+    "name": "cordova-plugin-cookieemperor",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-cookieemperor/-/cordova-plugin-cookieemperor-1.0.0.tgz",
+  "_shasum": "15eed753bfcbc3ac6392e13f6cc55d5d60165f61",
+  "_shrinkwrap": null,
+  "_spec": "cordova-plugin-cookieemperor",
+  "_where": "C:\\Users\\Treenity Academy\\Documents\\Cordova\\Demo",
+  "author": {
+    "name": "Rouven Kruse"
+  },
+  "bugs": {
+    "url": "https://github.com/RTK/cordova-cookie-emperor/issues"
+  },
+  "cordova": {
+    "id": "cordova-plugin-cookieemperor",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "dependencies": {},
+  "description": "Cordova webkit browser cookie manipulation, XWalk solution",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "15eed753bfcbc3ac6392e13f6cc55d5d60165f61",
+    "tarball": "https://registry.npmjs.org/cordova-plugin-cookieemperor/-/cordova-plugin-cookieemperor-1.0.0.tgz"
+  },
+  "gitHead": "3a73cfddce512e1a3ad8742163b92de72a0e338a",
+  "homepage": "https://github.com/RTK/cordova-cookie-emperor#readme",
+  "keywords": [
+    "cordova",
+    "cookies",
+    "cookie",
+    "manipulate",
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "rtk",
+      "email": "rouvenkruse@web.de"
+    }
+  ],
+  "name": "cordova-plugin-cookieemperor",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RTK/cordova-cookie-emperor.git"
+  },
+  "scripts": {},
+  "version": "1.0.0"
+}
