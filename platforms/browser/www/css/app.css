@@ -7,14 +7,6 @@
 /* passer body (et tous les éléments de largeur fixe) en largeur automatique */
 
 
-        
-/* .icon-search:before {
-    display: block;
-    width: 0;
-    height: 150%;
-} */
-
-
 body {
     background-color: #474482;
     width: auto;
@@ -101,10 +93,8 @@ body:before {
 .home {
     display: inline-block;
     position: absolute;
-    /* position: relative; */
     width: 100%;
-    /* left: 10px; */
-    /* right: 10px; */
+    color:#ffffff;
 }
 
 .weather-city {
@@ -124,14 +114,11 @@ body:before {
     /*background-color: #c71b1b; /* TODO remove color */
 }
 
-/* .center{
+.weather-description {
+    font-family: cursive;
+    font-size: 1em;
     text-align: center;
-    font-size: 5em;
-} */
-
-/* .wi{
-    font-size: 5em;
-} */
+}
 
 .weather-temperature {
     font-family: cursive;

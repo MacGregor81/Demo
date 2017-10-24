@@ -118,14 +118,16 @@ function myFunction(arr) {
     var degres = "°C";
     var cityElement = document.getElementById('WeatherCity');
     var weatherIconElement = document.getElementById('WeatherIcon');
+    var weatherDescriptionElement = document.getElementById('WeatherDescription');
     var temperatureElement = document.getElementById('WeatherTemperature');
     var temperatureMinMaxElement = document.getElementById('WeatherTempMinMax');
 
     cityElement.innerHTML = geoJson.properties.city;
     // weatherIconElement.innerHTML = '<div class="center"><i class="wi wi-owm-' + geoJson.properties.iconId + '"></i></div>';
-    weatherIconElement.innerHTML = '<i class="wi wi-owm-' + geoJson.properties.iconId + '"></i>';    
+    weatherIconElement.innerHTML = '<i class="wi wi-owm-' + geoJson.properties.iconId + '"></i>';
+    weatherDescriptionElement.innerText = geoJson.properties.description;
     temperatureElement.innerText = geoJson.properties.temperature + degres;
-    temperatureMinMaxElement.innerText = geoJson.properties.min + degres + " / " + geoJson.properties.max + degres;
+    temperatureMinMaxElement.innerHTML = "Min:" + geoJson.properties.min + degres + "<br />Max:" + geoJson.properties.max + degres;
 }
 
 
