@@ -16,11 +16,7 @@ function onLoad() {
     // console.log(content);
     //document.addEventListener("deviceready", onDeviceReady, false);
   
-    loadPage("html/home.html");
-
-    var city = parameters.City;
-    var generatedURL = GenerateRequestWeatherByCity(city);
-    WeatherRequest(generatedURL);
+    LoadHome();
 }
 
 function loadPage(url) {
@@ -38,6 +34,32 @@ function loadPage(url) {
     xmlhttp.send();
 }
 
+function LoadHome()
+{
+    var elIconHome = document.getElementById("icon-home");
+    var elIconSettings = document.getElementById("icon-settings");    
+
+    elIconSettings.classList.remove("active");
+    elIconHome.classList.add("active");
+
+    loadPage("html/home.html");
+
+    var city = parameters.City;
+    var generatedURL = GenerateRequestWeatherByCity(city);
+    WeatherRequest(generatedURL);
+}
+
+function LoadSettings()
+{
+    var elIconHome = document.getElementById("icon-home");
+    var elIconSettings = document.getElementById("icon-settings");
+
+    elIconSettings.classList.add("active");
+    elIconHome.classList.remove("active");
+
+    loadPage("html/about.html");
+}
+
 // function onDeviceReady() {
 //     navigator.geolocation.getCurrentPosition(OnSuccessGeolocation, OnErrorGeolocation);
 // }
@@ -48,12 +70,15 @@ function OnSearchClick()
 
     // var generatedURL = defaultLocation == true ? GenerateRequestWeatherByLatLong() : GenerateRequestWeatherByCity();
     var city = document.getElementById('SelectedCity').value;
-    var generatedURL = GenerateRequestWeatherByCity(city);
+
+    parameters.City = city;
+    LoadHome();
+    // var generatedURL = GenerateRequestWeatherByCity(city);
     
-    var cities = [city];
-    console.log(generatedURL);
-    WeatherRequest(generatedURL);
-    writeFile(city);
+    // var cities = [city];
+    // console.log(generatedURL);
+    // WeatherRequest(generatedURL);
+    // writeFile(city);
 }
 
 function GenerateRequestWeatherByCity(city)
@@ -78,8 +103,9 @@ function WeatherRequest(url)
 
     xhr.onreadystatechange = function() {
         if (this.status == 200) {
-            console.log(this.responseText);
-            var jsonObject = JSON.parse(this.responseText);
+            var responseTxt = this.responseText
+            console.log(responseTxt);
+            var jsonObject = JSON.parse(responseTxt);
 
             myFunction(jsonObject)  
         }
@@ -96,20 +122,10 @@ function myFunction(arr) {
     var temperatureMinMaxElement = document.getElementById('WeatherTempMinMax');
 
     cityElement.innerHTML = geoJson.properties.city;
-    weatherIconElement.innerHTML = geoJson.properties.weather;
+    // weatherIconElement.innerHTML = '<div class="center"><i class="wi wi-owm-' + geoJson.properties.iconId + '"></i></div>';
+    weatherIconElement.innerHTML = '<i class="wi wi-owm-' + geoJson.properties.iconId + '"></i>';    
     temperatureElement.innerText = geoJson.properties.temperature + degres;
-    temperatureMinMaxElement.innerText = geoJson.properties.min + degres + "/" + geoJson.properties.max + degres;
-
-    // var output = '<ul>';
-    // output += '<li>' + geoJson.properties.city+'['+ geoJson.properties.country +']</li>';
-    // output += '<li>'+ geoJson.properties.weather + '</li>';                                      
-    // output += '<li><img src="'+geoJson.properties.icon + '" /></li>';
-    // //output += '<li>'+ geoJson.properties.description + '</li>';  
-    // output += '<li>'+ geoJson.properties.temperature + '°C</li>'
-    // output += '</ul>';
-    
-    // var divResponse = document.getElementById('response');
-    // divResponse.innerHTML = output;
+    temperatureMinMaxElement.innerText = geoJson.properties.min + degres + " / " + geoJson.properties.max + degres;
 }
 
 
@@ -117,6 +133,7 @@ function jsonToGeoJson (weatherItem) {
     var feature = {
     type: "Feature",
     properties: {
+        iconId: weatherItem.weather[0].id,
         city: weatherItem.name,
         weather: weatherItem.weather[0].main,
         description: weatherItem.weather[0].description,
@@ -126,7 +143,7 @@ function jsonToGeoJson (weatherItem) {
         humidity: weatherItem.main.humidity,
         pressure: weatherItem.main.pressure,
         windSpeed: weatherItem.wind.speed,
-        windDegrees: weatherItem.wind.deg,s
+        windDegrees: weatherItem.wind.deg,
         windGust: weatherItem.wind.gust,
         icon: parameters.WeatherIcon
             + weatherItem.weather[0].icon  + parameters.WeatherIconExtension,
@@ -202,7 +219,7 @@ function createFile() {
     window.requestFileSystem(type, size, successCallback, errorCallback)
  
     function successCallback(fs) {
-        var filePath = cordova.file.applicationStorageDirectory + parameters.CitiesFilePath;
+        var filePath = parameters.CitiesFilePath;
         fs.root.getFile(filePath, {create: true, exclusive: true}, function(fileEntry) {
             console.log('File creation successfull!')
         }, errorCallback);

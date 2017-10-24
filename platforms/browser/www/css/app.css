@@ -6,16 +6,7 @@
 
 /* passer body (et tous les éléments de largeur fixe) en largeur automatique */
 
-.icon-search {
-    height: 42px;
-    width: 42px;
-    background:transparent url('../img/search.png') no-repeat;
-    background-size: 42px 42px; 
-    border: 0;
-    overflow: hidden;
-    /* IE 6/7 fallback */
-    *text-indent: -9999px;
-}
+
         
 /* .icon-search:before {
     display: block;
@@ -107,8 +98,7 @@ body:before {
     left: 0px;
 }
 
-.home
-{
+.home {
     display: inline-block;
     position: absolute;
     /* position: relative; */
@@ -117,33 +107,52 @@ body:before {
     /* right: 10px; */
 }
 
-.weather-city
-{
+.weather-city {
     font-family: cursive;
+    font-style: italic;
     font-size: 1.5em;
     text-align: center; 
 }
 
-.weather-icon
-{
+.weather-icon {
     left: 10px; 
     right: 10px;
     height: 100px;
     background-size: 80px 80px;
-    background-color: #c71b1b; /* TODO remove color */
+    text-align: center;
+    font-size: 5em;
+    /*background-color: #c71b1b; /* TODO remove color */
 }
 
-.weather-temperature
-{
+/* .center{
+    text-align: center;
+    font-size: 5em;
+} */
+
+/* .wi{
+    font-size: 5em;
+} */
+
+.weather-temperature {
     font-family: cursive;
     font-size: 1em;
     text-align: center;
 }
-.weather-temp-minmax
-{
+
+.weather-temp-minmax {
     font-family: cursive;
     font-size: 0.8em;
     text-align: center;
+}
+
+.panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .nav{
@@ -172,6 +181,18 @@ body:before {
 
 .nav .active {
     border-top: 5px solid #0daeb1;
+}
+
+.icon-search {
+    right: 0;
+    height: 42px;
+    width: 42px;
+    background:transparent url('../img/search.png') no-repeat;
+    background-size: 42px 42px; 
+    /* border: 0; */
+    overflow: hidden;
+    /* IE 6/7 fallback */
+    *text-indent: -9999px;
 }
 
 #icon-home{
