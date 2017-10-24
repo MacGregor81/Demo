@@ -126,7 +126,7 @@ function jsonToGeoJson (weatherItem) {
         humidity: weatherItem.main.humidity,
         pressure: weatherItem.main.pressure,
         windSpeed: weatherItem.wind.speed,
-        windDegrees: weatherItem.wind.deg,
+        windDegrees: weatherItem.wind.deg,s
         windGust: weatherItem.wind.gust,
         icon: parameters.WeatherIcon
             + weatherItem.weather[0].icon  + parameters.WeatherIconExtension,
