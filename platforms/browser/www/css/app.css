@@ -1,0 +1,287 @@
+/* @media (max-width: 640px) 
+{
+* {
+    box-sizing: border-box;
+} */
+
+/* passer body (et tous les éléments de largeur fixe) en largeur automatique */
+
+
+body {
+    background-color: #474482;
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+	
+/* fixer une largeur maximale de 100% aux éléments potentiellement problématiques */
+
+img,
+table,
+td,
+blockquote,
+code,
+pre,
+textarea,
+input,
+iframe,
+object,
+embed,
+video {
+    max-width: 100%;
+}
+
+input[type="text"]{
+    padding: 5px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+/* conserver le ratio des images */
+
+img {
+    height: auto;
+}
+
+/* gestion des mots longs */
+
+textarea,
+table,
+td,
+th,
+code,
+pre,
+samp {
+    -webkit-hyphens: auto; /* césure propre */
+    -moz-hyphens: auto;
+    hyphens: auto;
+    word-wrap: break-word; /* passage à la ligne forcé */
+}
+
+code,
+pre,
+samp {
+    white-space: pre-wrap; /* passage à la ligne spécifique pour les éléments à châsse fixe */
+}
+
+/* Passer à une seule colonne (à appliquer aux éléments multi-colonnes) */
+
+.element1,
+.element2 {
+    float: none;
+    width: auto;
+}
+
+/* masquer les éléments superflus */
+
+.hide_mobile {
+    display: none !important;
+}
+
+/* Un message personnalisé */
+
+body:before {
+    content: "Version mobile du site";
+    display: block;
+    text-align: center;
+    font-style: italic;
+    color: #777;
+}
+
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    line-height: 60px;
+    color: #FFF;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: #11a7ab;
+}
+
+.view {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    bottom: 60px;
+    left: 0px;
+}
+
+.home {
+    display: inline-block;
+    position: absolute;
+    width: 100%;
+    color:#ffffff;
+}
+
+.weather-city {
+    font-family: cursive;
+    font-style: italic;
+    font-size: 1.5em;
+    text-align: center; 
+}
+
+.weather-icon {
+    left: 10px; 
+    right: 10px;
+    height: 80px;
+    background-size: 80px 80px;
+    text-align: center;
+    font-size: 5em;
+    /*background-color: #c71b1b; /* TODO remove color */
+}
+
+.weather-description {
+    padding-top: 10px;
+    font-family: georgia;
+    font-size: 1em;
+    text-align: center;
+}
+
+.weather-temperature {
+    font-family: georgia;
+    font-size: 1em;
+    text-align: center;
+}
+
+.weather-temp-minmax {
+    font-family: georgia;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-family: georgia;    
+    color: #FFF;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    overflow: hidden;
+}
+
+.panel p{
+    left: 10px;
+}
+
+.nav{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    background-color: #20DC7B;
+    overflow: hidden;
+}
+
+.nav a {
+    display: block;
+    width: 50%;
+    height: 60px;
+    line-height: 60px;
+    float: left;
+    /* -moz-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s; */
+}
+
+.nav .active {
+    /* border-top: 3px solid #0daeb1; */
+    background-color: rgb(60, 194, 125) !important;
+}
+
+.icon-search {
+    height: 50px;
+    width: 50px;
+    background:transparent url('../img/search.png') no-repeat;
+    background-size: 40px 40px; 
+    background-position: center;
+    /* border: none; */
+    /* border: 0; */
+    overflow: hidden;
+    /* IE 6/7 fallback */
+    *text-indent: -9999px;
+    margin-left: 5px;
+}
+
+.first-line-panel{
+    position: absolute;
+    left : 10px;
+    right: 10px;
+    top: 20px;
+}
+
+.second-line-panel{
+    position: absolute;
+    left : 10px;
+    right: 10px;
+    top: 60px;
+}
+
+.second-line-container{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.city-text{
+    margin-top: 12px;
+    display: block;
+    float: left;
+    width: 80%;
+}
+
+.city-text input{
+    width : 100%;
+}
+
+.button-search{
+    display: block;
+    float: right;
+    width: 20%;
+}
+
+/* .line-city-title{
+
+} */
+
+/* .line-city-text{
+    top: 40px;
+} 
+
+.line-city-text input{
+    width: 90%;
+}
+
+.line-button-search{
+    top: 30px;
+    padding-left: 85%;
+} */
+
+#icon-home{
+    background:transparent url('../img/home.png') no-repeat;
+    background-size: 60px 60px;
+    background-position: center;
+}
+
+#icon-settings{
+    background:transparent url('../img/settings.png') no-repeat;
+    background-size: 60px 60px;
+    background-position: center;
+}
+
+/* @media (max-device-width:768px) and (orientation: landscape) {
+    html {
+     -webkit-text-size-adjust: 100%;
+     -ms-text-size-adjust: 100%;
+    }
+} */
