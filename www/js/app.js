@@ -4,8 +4,8 @@ var parameters = {
     "urlParameters": "&units=metric&lang=fr",
     "WeatherIcon" : "http://openweathermap.org/img/w/",
     "WeatherIconExtension" : ".png",
-    "CitiesFilePath" : "cities.txt",
-    "City" : "Tournai"
+    "CitiesFilePath" : "cities.txt"/*,
+    "City" : "Tournai"$*/
     // "GeolocationLat" : 91.91,
     // "GeolocationLong" : 181.181,
     // "GoogleMapAPIGeocodeKey" : "AIzaSyC6y4iPFzwgKlmY9aOWGc3Oou7idbrWZc0"
@@ -36,24 +36,39 @@ function loadPage(url) {
 
 function LoadHome()
 {
+    var elHeader = document.getElementById("headerApp");
     var elIconHome = document.getElementById("icon-home");
     var elIconSettings = document.getElementById("icon-settings");    
 
+    elHeader.innerText = "Home";
     elIconSettings.classList.remove("active");
     elIconHome.classList.add("active");
 
     loadPage("html/home.html");
 
-    var city = parameters.City;
-    var generatedURL = GenerateRequestWeatherByCity(city);
-    WeatherRequest(generatedURL);
+    var city = GetCity();
+    if(city == null || city.length == 0)
+    {
+        alert('No City defined! Please do it in the parameter page.')
+        // var containerElement = document.getElementById("container");
+        // container.innerText = 'No City defined! Please do it in the parameter page.';
+        //LoadSettings();
+    }
+    else
+    {
+        var generatedURL = GenerateRequestWeatherByCity(city);
+        WeatherRequest(generatedURL);
+    }
+   
 }
 
 function LoadSettings()
 {
+    var elHeader = document.getElementById("headerApp");
     var elIconHome = document.getElementById("icon-home");
-    var elIconSettings = document.getElementById("icon-settings");
+    var elIconSettings = document.getElementById("icon-settings");    
 
+    elHeader.innerText = "Settings";
     elIconSettings.classList.add("active");
     elIconHome.classList.remove("active");
 
@@ -71,7 +86,8 @@ function OnSearchClick()
     // var generatedURL = defaultLocation == true ? GenerateRequestWeatherByLatLong() : GenerateRequestWeatherByCity();
     var city = document.getElementById('SelectedCity').value;
 
-    parameters.City = city;
+    SaveCity(city);
+    //parameters.City = city;
     LoadHome();
     // var generatedURL = GenerateRequestWeatherByCity(city);
     
@@ -107,15 +123,15 @@ function WeatherRequest(url)
             console.log(responseTxt);
             var jsonObject = JSON.parse(responseTxt);
 
-            myFunction(jsonObject)  
+            SetWeatherInfo(jsonObject)  
         }
     };
     xhr.send();
 }
 
-function myFunction(arr) {
+function SetWeatherInfo(arr) {
     var geoJson = jsonToGeoJson(arr);
-    var degres = "°C";
+    var degres = "&#8451;";
     var cityElement = document.getElementById('WeatherCity');
     var weatherIconElement = document.getElementById('WeatherIcon');
     var weatherDescriptionElement = document.getElementById('WeatherDescription');
@@ -123,10 +139,9 @@ function myFunction(arr) {
     var temperatureMinMaxElement = document.getElementById('WeatherTempMinMax');
 
     cityElement.innerHTML = geoJson.properties.city;
-    // weatherIconElement.innerHTML = '<div class="center"><i class="wi wi-owm-' + geoJson.properties.iconId + '"></i></div>';
     weatherIconElement.innerHTML = '<i class="wi wi-owm-' + geoJson.properties.iconId + '"></i>';
     weatherDescriptionElement.innerText = geoJson.properties.description;
-    temperatureElement.innerText = geoJson.properties.temperature + degres;
+    temperatureElement.innerHTML = geoJson.properties.temperature + degres;
     temperatureMinMaxElement.innerHTML = "Min:" + geoJson.properties.min + degres + "<br />Max:" + geoJson.properties.max + degres;
 }
 
@@ -139,7 +154,7 @@ function jsonToGeoJson (weatherItem) {
         city: weatherItem.name,
         weather: weatherItem.weather[0].main,
         description: weatherItem.weather[0].description,
-        temperature: weatherItem.main.temp,
+        temperature: Math.round(weatherItem.main.temp*10)/10,
         min: weatherItem.main.temp_min,
         max: weatherItem.main.temp_max,
         humidity: weatherItem.main.humidity,
@@ -200,93 +215,16 @@ function OnErrorGeolocation(error)
     'message: ' + error.message + '\n');
 }*/
 
-function SaveCities(cities)
+function SaveCity(city)
 {
-    var filename = 'cities.json'
-    writeFile(cities);
+    localStorage.setItem('SavedCity', city);
+    //writeFile(cities);
 }
 
-function getCities()
+function GetCity()
 {
-    var cities = ["Tournai"];
-    return cities;
+    var city = localStorage.getItem('SavedCity');
+    return city;
+    // var cities = ["Tournai"];
+    // return cities;
 }
-
-/**
- * Files Methods
- */
-function createFile() {
-    var type = window.PERSISTENT;
-    var size = 5*1024*1024;
-    window.requestFileSystem(type, size, successCallback, errorCallback)
- 
-    function successCallback(fs) {
-        var filePath = parameters.CitiesFilePath;
-        fs.root.getFile(filePath, {create: true, exclusive: true}, function(fileEntry) {
-            console.log('File creation successfull!')
-        }, errorCallback);
-    }
-
-    function errorCallback(error) {
-        console.log("ERROR: " + error.code);
-    }
- }
-
- function writeFile(cities) {
-    var type = window.PERSISTENT;
-    var size = 5*1024*1024;
-    window.requestFileSystem(type, size, successCallback, errorCallback)
- 
-    function successCallback(fs) {        
-        var filePath =  parameters.CitiesFilePath;
-        fs.root.getFile(filePath, {create: true}, function(fileEntry) {
-    
-            fileEntry.createWriter(function(fileWriter) {
-                fileWriter.onwriteend = function(e) {
-                    console.log('Write completed.');
-                };
-    
-                fileWriter.onerror = function(e) {
-                    console.log('Write failed: ' + e.toString());
-                };
-    
-                var blob = new Blob(cities, {type: 'text/plain'});
-                fileWriter.write(blob);
-                //fileWriter.write(cities);
-            }, errorCallback);
-        }, errorCallback);
-    }
-
-    function errorCallback(error) {
-        console.log("ERROR: " + error.code);
-    }
- }
-
- function readFile() {
-    var filecontent  = new Blob();
-    var type = window.PERSISTENT;
-    var size = 5*1024*1024;
-    window.RequestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem; 
-
-    window.RequestFileSystem(type, size, successCallback, errorCallback)
-
-    function successCallback(fs) {
-        var filePath =  parameters.CitiesFilePath;
-        fs.root.getFile(filePath, {}, function(fileEntry) {
-    
-            fileEntry.file(function(file) {
-                var reader = new FileReader();
-    
-                reader.onloadend = function(e) {
-                    this.readAsText(filecontent);
-                };
-                reader.readAsText(file);
-            }, errorCallback);
-        }, errorCallback);
-    }
- 
-    function errorCallback(error) {
-       alert("ERROR: " + error.code)
-    }
-    return filecontent;
- }
