@@ -118,7 +118,7 @@ body:before {
 }
 
 .weather-city {
-    font-family: cursive;
+    font-family: georgia;
     font-style: italic;
     font-size: 1.5em;
     text-align: center; 
@@ -205,9 +205,9 @@ body:before {
     background:transparent url('../img/search.png') no-repeat;
     background-size: 40px 40px; 
     background-position: center;
-    /* border: none; */
-    /* border: 0; */
-    overflow: hidden;
+    border: none;
+    border: 0;
+    /* overflow: hidden; */
     /* IE 6/7 fallback */
     *text-indent: -9999px;
     margin-left: 5px;
@@ -250,21 +250,18 @@ body:before {
     width: 20%;
 }
 
-/* .line-city-title{
-
-} */
-
-/* .line-city-text{
-    top: 40px;
-} 
-
-.line-city-text input{
-    width: 90%;
+.lastupdate-line-panel{
+    position: absolute;
+    left : 10px;
+    right: 10px;
+    bottom: 0px;
+    text-align: center;
+    font-size: 0.5em;
+    /* height: 20px; */
 }
 
-.line-button-search{
-    top: 30px;
-    padding-left: 85%;
+/* .lastupdate-line-panel p{
+
 } */
 
 #icon-home{

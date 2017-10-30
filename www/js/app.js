@@ -4,16 +4,15 @@ var parameters = {
     "urlParameters": "&units=metric&lang=fr",
     "WeatherIcon" : "http://openweathermap.org/img/w/",
     "WeatherIconExtension" : ".png",
-    "CitiesFilePath" : "cities.txt"/*,
-    "City" : "Tournai"$*/
+    "DateTimeFormat" : "YYYYMMDDHHmmss",
+    "MaxHoursRequest" : 6,
+    "ForcedRefresh" : false
     // "GeolocationLat" : 91.91,
     // "GeolocationLong" : 181.181,
     // "GoogleMapAPIGeocodeKey" : "AIzaSyC6y4iPFzwgKlmY9aOWGc3Oou7idbrWZc0"
 };
 
 function onLoad() {
-    // var content = readFile();
-    // console.log(content);
     //document.addEventListener("deviceready", onDeviceReady, false);
   
     LoadHome();
@@ -27,6 +26,15 @@ function loadPage(url) {
         if (xmlhttp.readyState === 4){
             if (xmlhttp.status === 200) {
                 document.getElementById('container').innerHTML = xmlhttp.responseText;
+                if(url == "html/home.html"){
+
+                    RefreshWeatherDetector();
+                }
+                else{
+                    var ludElement = document.getElementById('LastUpdateDate');
+                    var lud = GetLastResponseDate();
+                    ludElement.innerText = lud.toString();
+                }
             }
         }
     };
@@ -42,24 +50,58 @@ function LoadHome()
 
     elHeader.innerText = "Home";
     elIconSettings.classList.remove("active");
-    elIconHome.classList.add("active");
-
-    loadPage("html/home.html");
+    elIconHome.classList.add("active");    
 
     var city = GetCity();
     if(city == null || city.length == 0)
     {
-        alert('No City defined! Please do it in the parameter page.')
-        // var containerElement = document.getElementById("container");
-        // container.innerText = 'No City defined! Please do it in the parameter page.';
-        //LoadSettings();
+        //alert('No City defined! Please do it in the parameter page.')
+        var containerElement = document.getElementById("container");
+        container.innerText = 'No City defined! Please do it in the parameter page.';
     }
     else
     {
+        loadPage("html/home.html");
+    }   
+}
+
+function RefreshWeatherDetector()
+{
+    var updatePage = PageMustBeUpdated();
+    
+    if(updatePage == true){
+        var city = GetCity();
         var generatedURL = GenerateRequestWeatherByCity(city);
+
         WeatherRequest(generatedURL);
     }
-   
+    else{
+        var responseText = GetResponseText();
+        AnalyzeRequest(responseText, false);
+    }
+}
+
+function PageMustBeUpdated()
+{
+    var lastUpdatedDate = GetLastResponseDate();
+    var updatePage = false;
+    if(parameters.ForcedRefresh == false){
+        if(lastUpdatedDate == null){
+            updatePage = true;
+        }
+        else{
+            var now = moment();
+            var nbHours = now.diff(lastUpdatedDate, 'hours');
+            updatePage = nbHours > parameters.MaxHoursRequest;
+        }
+    }
+    else{
+        updatePage = true;
+        parameters.ForcedRefresh = false;
+        console.log('hello we are here!');
+    }
+
+    return updatePage;
 }
 
 function LoadSettings()
@@ -79,22 +121,17 @@ function LoadSettings()
 //     navigator.geolocation.getCurrentPosition(OnSuccessGeolocation, OnErrorGeolocation);
 // }
 
-function OnSearchClick()
+function OnGetWeatherClick()
 {
    // var defaultLocation = document.getElementById('chkDefaultLocation').checked;
 
     // var generatedURL = defaultLocation == true ? GenerateRequestWeatherByLatLong() : GenerateRequestWeatherByCity();
     var city = document.getElementById('SelectedCity').value;
 
-    SaveCity(city);
-    //parameters.City = city;
+    SetCity(city);
+    parameters.ForcedRefresh = true;
+    console.log("must be updated!")
     LoadHome();
-    // var generatedURL = GenerateRequestWeatherByCity(city);
-    
-    // var cities = [city];
-    // console.log(generatedURL);
-    // WeatherRequest(generatedURL);
-    // writeFile(city);
 }
 
 function GenerateRequestWeatherByCity(city)
@@ -112,8 +149,9 @@ function GenerateRequestWeatherByCity(city)
 //     return url;{}
 // }
 
+
 function WeatherRequest(url)
-{
+{   
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url);
 
@@ -121,16 +159,26 @@ function WeatherRequest(url)
         if (this.status == 200) {
             var responseTxt = this.responseText
             console.log(responseTxt);
-            var jsonObject = JSON.parse(responseTxt);
-
-            SetWeatherInfo(jsonObject)  
+            SetResponseText(responseTxt);
+            
+            AnalyzeRequest(responseTxt, true);
         }
     };
     xhr.send();
 }
 
-function SetWeatherInfo(arr) {
-    var geoJson = jsonToGeoJson(arr);
+function AnalyzeRequest(responseTxt, updateDate)
+{
+    var jsonObject = JSON.parse(responseTxt);
+    console.log(jsonObject);
+    SetWeatherInfo(jsonObject);
+    if(updateDate == true)
+        SetLastResponseDate();
+    console.log("request:"+updateDate?"oui":"non");
+}
+
+function SetWeatherInfo(jsonObject) {
+    var geoJson = jsonToGeoJson(jsonObject);
     var degres = "&#8451;";
     var flagElement =  document.getElementById('CityFlag');
     var cityElement = document.getElementById('WeatherCity');
@@ -180,18 +228,17 @@ function jsonToGeoJson (weatherItem) {
     return feature;
 }
 
-function CheckDefaultLocation()
-{
-    var defaultLocation = document.getElementById('chkDefaultLocation').checked;
-    document.getElementById('SelectedCity').readOnly = defaultLocation;
-    if(defaultLocation == true){
-        document.getElementById('SelectedCity').value = "Current Position";
-    }
-    else{
-        document.getElementById('SelectedCity').value = "";
-        // TODO get first city ==> cookie!
-    }
-}
+// function CheckDefaultLocation()
+// {
+//     var defaultLocation = document.getElementById('chkDefaultLocation').checked;
+//     document.getElementById('SelectedCity').readOnly = defaultLocation;
+//     if(defaultLocation == true){
+//         document.getElementById('SelectedCity').value = "Current Position";
+//     }
+//     else{
+//         document.getElementById('SelectedCity').value = "";
+//     }
+// }
 
 /* some problem are encountered when use weather api with coordinate ! Free Api Key limit?s
 function OnSuccessGeolocation(position)
@@ -218,16 +265,38 @@ function OnErrorGeolocation(error)
     'message: ' + error.message + '\n');
 }*/
 
-function SaveCity(city)
+function SetCity(city)
 {
     localStorage.setItem('SavedCity', city);
-    //writeFile(cities);
 }
 
 function GetCity()
 {
     var city = localStorage.getItem('SavedCity');
     return city;
-    // var cities = ["Tournai"];
-    // return cities;
+}
+
+function SetLastResponseDate()
+{
+    var now = moment();
+
+    localStorage.setItem('LastResponseDate', now.format(parameters.DateTimeFormat));
+}
+
+function GetLastResponseDate()
+{
+    var dateString = localStorage.getItem('LastResponseDate');
+
+    return new moment(dateString, parameters.DateTimeFormat);
+}
+
+function SetResponseText(responseText)
+{
+    localStorage.setItem('LastResponseText', responseText);
+}
+
+function GetResponseText()
+{
+    var responseText = localStorage.getItem('LastResponseText');
+    return responseText;
 }
