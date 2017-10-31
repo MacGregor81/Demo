@@ -186,6 +186,12 @@ function SetWeatherInfo(jsonObject) {
     var weatherDescriptionElement = document.getElementById('WeatherDescription');
     var temperatureElement = document.getElementById('WeatherTemperature');
     var temperatureMinMaxElement = document.getElementById('WeatherTempMinMax');
+    var weatherimgElement = document.getElementById('weatherimg');
+    // var now = moment();
+    // var classNameHour = 'Sky-hour-' + now.hour();
+
+
+    weatherimgElement.classList.add('wu-'+geoJson.properties.weather.toLowerCase());
     
     flagElement.classList.add('flag');
     flagElement.classList.add('flag-' + geoJson.properties.country.toLowerCase());
