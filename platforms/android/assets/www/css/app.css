@@ -1,4 +1,4 @@
-/* @media (max-width: 640px) 
+/* @media (max-width: 640px)
 {
 * {
     box-sizing: border-box;
@@ -13,7 +13,7 @@ body {
     margin: 0;
     padding: 0;
 }
-	
+
 /* fixer une largeur maximale de 100% aux éléments potentiellement problématiques */
 
 img,
@@ -119,9 +119,10 @@ body:before {
 }
 
 .weather-panel{
-    width : 200px;
-    height: 200px;
-    /* background-color: #a82020;     */
+    border-radius: 25px;
+    width: 250px;
+    height: 220px;
+    background-color: #a82020;
     left: 0;
     right: 0;
     margin-top: 10px;
@@ -129,113 +130,190 @@ body:before {
     margin-right: auto;
 }
 
-.Sky{
+.first-line-weather-panel{
+    /* top : 0px;
+    left: 0px; */
+    margin-left: 18px;
+    height: 35px;
+    width: 85%;
+    font-size: 1.3em;
+    /* background-color: #207da8; */
+    font-family: georgia;
+}
+
+.temp-degres-weather-panel{
+    color: #2dbf3e;
+}
+
+.weather-city-panel {
+    font-family: georgia;
+    /* font-weight: bold; */
+    font-style: italic;
+    /* font-size: 1.5em; */
+}
+
+.second-line-weather-panel{
+    height: 165px; 
+    width: 100%;
+    /* background-color: #947272; */
+}
+
+.date-line-weather-panel{
+    height: 20px;
+    text-align: left;
+    margin-left: 20px;
+}
+
+.weather-line-panel{
+    height: 128px;
+    width: 100%;
+}
+
+.weather-line-panel-left{
+    display: block;
+    width: 55%;
+    height: 100%;
+    float: left;
+}
+
+.weather-line-panel-left i{
+    float: right;
+}
+
+.weather-line-panel-right{
+    display: block;
+    width: 45%;
+    height: 100%;
+    float: left;
+    /* background-color: #b1b16f; */
+    text-align: center;
+}
+
+.weather-line-panel-right-container{
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.weather-line-panel-right-container p{
+    margin: 0;
+    padding: 0;
+}
+
+.weather-line-panel-description{
+    width: 100%;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+/* .Sky{
     float: left;
     position: relative;
     width : 100%;
     height: 100%;
-    background: linear-gradient(to bottom,  #373056 1%,#362942 8%,#362942 14%,#82bfe5 40%,#c3e9f7 57%,#efad51 67%,#a33737 70%,#192f49 97%);    
-}
+    background: linear-gradient(to bottom,  #373056 1%,#362942 8%,#362942 14%,#82bfe5 40%,#c3e9f7 57%,#efad51 67%,#a33737 70%,#192f49 97%);
+} */
 
 /* .Sky-hour-0 {
-    top: 100px; 
+    top: 100px;
 }
 .Sky-hour-1 {
-    top: 0px; 
+    top: 0px;
 }
 .Sky-hour-2 {
-    top: -100px; 
+    top: -100px;
 }
 .Sky-hour-3 {
-    top: -200px; 
+    top: -200px;
 }
 .Sky-hour-4 {
-    top: -300px; 
+    top: -300px;
 }
 .Sky-hour-5 {
-    top: -400px; 
+    top: -400px;
 }
 .Sky-hour-6 {
-    top: -500px; 
+    top: -500px;
 }
 .Sky-hour-7 {
-    top: -600px; 
+    top: -600px;
 }
 
 .Sky-hour-8 {
-    top: -700px; 
+    top: -700px;
 }
 
 .Sky-hour-9 {
-    top: -800px; 
+    top: -800px;
 }
 
 .Sky-hour-10 {
-    top: -900px; 
+    top: -900px;
 }
 
 .Sky-hour-11 {
-    top: -1000px; 
+    top: -1000px;
 }
 
 .Sky-hour-12 {
-    top: -1100px; 
+    top: -1100px;
 }
 
 .Sky-hour-13 {
-    top: -1200px; 
+    top: -1200px;
 }
 
 .Sky-hour-14 {
-    top: -1300px; 
+    top: -1300px;
 }
 
 .Sky-hour-15 {
-    top: -1400px; 
+    top: -1400px;
 }
 
 .Sky-hour-16 {
-    top: -1500px; 
+    top: -1500px;
 }
 
 .Sky-hour-17 {
-    top: -1600px; 
+    top: -1600px;
 }
 
 .Sky-hour-18 {
-    top: -1700px; 
+    top: -1700px;
 }
 
 .Sky-hour-19 {
-    top: -1800px; 
+    top: -1800px;
 
 }
 
 .Sky-hour-20 {
-    top: -1900px; 
+    top: -1900px;
 }
 
 .Sky-hour-21 {
-    top: -2000px; 
+    top: -2000px;
 }
 
 .Sky-hour-22 {
-    top: -2100px; 
+    top: -2100px;
 }
 
 .Sky-hour-23 {
-    top: -2200px; 
+    top: -2200px;
 } */
 
 .weather-city {
     font-family: georgia;
     font-style: italic;
     font-size: 1.5em;
-    text-align: center; 
+    text-align: center;
 }
 
 .weather-icon {
-    left: 10px; 
+    left: 10px;
     right: 10px;
     height: 80px;
     background-size: 80px 80px;
@@ -269,7 +347,7 @@ body:before {
     left: 0;
     right: 0;
     bottom: 0;
-    font-family: georgia;    
+    font-family: georgia;
     color: #FFF;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -313,7 +391,7 @@ body:before {
     height: 50px;
     width: 50px;
     background:transparent url('../img/search.png') no-repeat;
-    background-size: 40px 40px; 
+    background-size: 40px 40px;
     background-position: center;
     border: none;
     border: 0;
@@ -373,6 +451,10 @@ body:before {
 /* .lastupdate-line-panel p{
 
 } */
+
+#weatherimg{
+    margin: auto;
+}
 
 #icon-home{
     background:transparent url('../img/home.png') no-repeat;

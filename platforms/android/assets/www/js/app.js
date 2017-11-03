@@ -98,7 +98,6 @@ function PageMustBeUpdated()
     else{
         updatePage = true;
         parameters.ForcedRefresh = false;
-        console.log('hello we are here!');
     }
 
     return updatePage;
@@ -174,32 +173,41 @@ function AnalyzeRequest(responseTxt, updateDate)
     SetWeatherInfo(jsonObject);
     if(updateDate == true)
         SetLastResponseDate();
-    console.log("request:"+updateDate?"oui":"non");
+    // console.log("request:"+updateDate?"oui":"non");
 }
 
 function SetWeatherInfo(jsonObject) {
     var geoJson = jsonToGeoJson(jsonObject);
-    var degres = "&#8451;";
-    var flagElement =  document.getElementById('CityFlag');
-    var cityElement = document.getElementById('WeatherCity');
-    var weatherIconElement = document.getElementById('WeatherIcon');
-    var weatherDescriptionElement = document.getElementById('WeatherDescription');
-    var temperatureElement = document.getElementById('WeatherTemperature');
-    var temperatureMinMaxElement = document.getElementById('WeatherTempMinMax');
+    var degres = '&#8451;';
+    var spanDegres = '<span class="temp-degres-weather-panel">' + degres + '</span>';
+    var wpt = document.getElementById('weatherpaneltemp');
+    var curDate = document.getElementById('CurrentDate');
     var weatherimgElement = document.getElementById('weatherimg');
+    var wpmm = document.getElementById('WeatherPanelMinMax');
+    var wpd = document.getElementById('WeatherPanelDescription');
+
+    var flagElement =  document.getElementById('CityFlag');
+    // var cityElement = document.getElementById('WeatherCity');
+    // var weatherIconElement = document.getElementById('WeatherIcon');
+    // var weatherDescriptionElement = document.getElementById('WeatherDescription');
+    // var temperatureElement = document.getElementById('WeatherTemperature');
+    // var temperatureMinMaxElement = document.getElementById('WeatherTempMinMax');
     // var now = moment();
     // var classNameHour = 'Sky-hour-' + now.hour();
-
-
+    
+    wpt.innerHTML = geoJson.properties.temperature + spanDegres + ' &#124; <span class="weather-city-panel">' + geoJson.properties.city + '</span>';
     weatherimgElement.classList.add('wu-'+geoJson.properties.weather.toLowerCase());
+    curDate.innerHTML = '<span>' + moment().format('LL') + '</span>';
+    wpmm.innerHTML = '<p>Min: ' + geoJson.properties.min + degres + '</p><p>Max: ' + geoJson.properties.max + degres + '</p>' ;
+    wpd.innerHTML = '<span>' + geoJson.properties.description + '</span>';
     
     flagElement.classList.add('flag');
     flagElement.classList.add('flag-' + geoJson.properties.country.toLowerCase());
-    cityElement.innerHTML = geoJson.properties.city;
-    weatherIconElement.innerHTML = '<i class="wi wi-owm-' + geoJson.properties.iconId + '"></i>';
-    weatherDescriptionElement.innerText = geoJson.properties.description;
-    temperatureElement.innerHTML = geoJson.properties.temperature + degres;
-    temperatureMinMaxElement.innerHTML = "Min:" + geoJson.properties.min + degres + "<br />Max:" + geoJson.properties.max + degres;
+    // cityElement.innerHTML = geoJson.properties.city;
+    // weatherIconElement.innerHTML = '<i class="wi wi-owm-' + geoJson.properties.iconId + '"></i>';
+    // weatherDescriptionElement.innerText = geoJson.properties.description;
+    // temperatureElement.innerHTML = geoJson.properties.temperature + degres;
+    // temperatureMinMaxElement.innerHTML = "Min:" + geoJson.properties.min + degres + "<br />Max:" + geoJson.properties.max + degres;
 }
 
 
