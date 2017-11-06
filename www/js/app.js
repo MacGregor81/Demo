@@ -183,7 +183,9 @@ function SetWeatherInfo(jsonObject) {
     var wpt = document.getElementById('weatherpaneltemp');
     var curDate = document.getElementById('CurrentDate');
     var weatherimgElement = document.getElementById('weatherimg');
-    var wpmm = document.getElementById('WeatherPanelMinMax');
+    // var wpmm = document.getElementById('WeatherPanelMinMax');
+    var wtmax =  document.getElementById('WeatherTempMax');
+    var wtmin = document.getElementById('WeatherTempMin');
     var wpd = document.getElementById('WeatherPanelDescription');
 
     var flagElement =  document.getElementById('CityFlag');
@@ -194,11 +196,18 @@ function SetWeatherInfo(jsonObject) {
     // var temperatureMinMaxElement = document.getElementById('WeatherTempMinMax');
     // var now = moment();
     // var classNameHour = 'Sky-hour-' + now.hour();
+
+    var weather = geoJson.properties.weather.toLowerCase();
+    if(weather == "clouds"){
+        weather = 'cloudy'
+    }
     
     wpt.innerHTML = geoJson.properties.temperature + spanDegres + ' &#124; <span class="weather-city-panel">' + geoJson.properties.city + '</span>';
-    weatherimgElement.classList.add('wu-'+geoJson.properties.weather.toLowerCase());
+    weatherimgElement.classList.add('wu-'+weather);
     curDate.innerHTML = '<span>' + moment().format('LL') + '</span>';
-    wpmm.innerHTML = '<p>Min: ' + geoJson.properties.min + degres + '</p><p>Max: ' + geoJson.properties.max + degres + '</p>' ;
+    // wpmm.innerHTML = '<p>Min: ' + geoJson.properties.min + degres + '</p><p>Max: ' + geoJson.properties.max + degres + '</p>' ;
+    wtmin.innerHTML = '<span>' + geoJson.properties.min + degres + '</span>';
+    wtmax.innerHTML = '<span>' + geoJson.properties.max + degres + '</span>';
     wpd.innerHTML = '<span>' + geoJson.properties.description + '</span>';
     
     flagElement.classList.add('flag');
