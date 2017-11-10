@@ -1,20 +1,8 @@
-var parameters = {
-    "WeatherappID": "fbf8b4acf5729aded8ba18679e6bad12", 
-    "WeatherUrl":"http://api.openweathermap.org/data/2.5/weather?",
-    "urlParameters": "&units=metric&lang=fr",
-    "WeatherIcon" : "http://openweathermap.org/img/w/",
-    "WeatherIconExtension" : ".png",
-    "DateTimeFormat" : "YYYYMMDDHHmmss",
-    "MaxHoursRequest" : 6,
-    "ForcedRefresh" : false
-    // "GeolocationLat" : 91.91,
-    // "GeolocationLong" : 181.181,
-    // "GoogleMapAPIGeocodeKey" : "AIzaSyC6y4iPFzwgKlmY9aOWGc3Oou7idbrWZc0"
-};
+
 
 function onLoad() {
     //document.addEventListener("deviceready", onDeviceReady, false);
-  
+
     LoadHome();
 }
 
@@ -33,7 +21,7 @@ function loadPage(url) {
                 else{
                     var ludElement = document.getElementById('LastUpdateDate');
                     var lud = GetLastResponseDate();
-                    ludElement.innerText = lud.toString();
+                    ludElement.innerText = lud.format('LLLL');
                 }
             }
         }
@@ -50,14 +38,16 @@ function LoadHome()
 
     elHeader.innerText = "Home";
     elIconSettings.classList.remove("active");
-    elIconHome.classList.add("active");    
+    elIconHome.classList.add("active");
+
+    // console.log(moment.locale());
 
     var city = GetCity();
     if(city == null || city.length == 0)
     {
-        //alert('No City defined! Please do it in the parameter page.')
-        var containerElement = document.getElementById("container");
-        container.innerText = 'No City defined! Please do it in the parameter page.';
+        alert('No City defined! Please do it in the parameter page.')
+        // var containerElement = document.getElementById("container");
+        // container.innerText = 'No City defined! Please do it in the parameter page.';
     }
     else
     {
@@ -71,13 +61,13 @@ function RefreshWeatherDetector()
     
     if(updatePage == true){
         var city = GetCity();
-        var generatedURL = GenerateRequestWeatherByCity(city);
+        var generatedURL = GenerateRequestTodayWeatherByCity(city);
 
-        WeatherRequest(generatedURL);
+        TodayWeatherRequest(generatedURL);
     }
     else{
         var responseText = GetResponseText();
-        AnalyzeRequest(responseText, false);
+        AnalyzeTodayRequest(responseText, false);
     }
 }
 
@@ -133,10 +123,10 @@ function OnGetWeatherClick()
     LoadHome();
 }
 
-function GenerateRequestWeatherByCity(city)
+function GenerateRequestTodayWeatherByCity(city)
 {
     var appID = parameters.WeatherappID;
-    var url = parameters.WeatherUrl + "q=" + city + '&appid=' + appID + parameters.urlParameters;
+    var url = parameters.TodayWeatherApiURL + "q=" + city + '&appid=' + appID + parameters.urlParameters;
     return url;
 }
 
@@ -144,42 +134,43 @@ function GenerateRequestWeatherByCity(city)
 // function GenerateRequestWeatherByLatLong()
 // {
 //     var appID = parameters.WeatherappID;
-//     var url = parameters.WeatherUrl +"lat=" + parameters.GeolocationLat +"&long=" +  parameters.GeolocationLong + '&appid=' + appID + parameters.urlParameters;
+//     var url = parameters.TodayWeatherApiURL +"lat=" + parameters.GeolocationLat +"&long=" +  parameters.GeolocationLong + '&appid=' + appID + parameters.urlParameters;
 //     return url;{}
 // }
 
 
-function WeatherRequest(url)
+function TodayWeatherRequest(url)
 {   
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url);
 
     xhr.onreadystatechange = function() {
         if (this.status == 200) {
-            var responseTxt = this.responseText
+            var responseTxt = this.responseText;
             console.log(responseTxt);
             SetResponseText(responseTxt);
             
-            AnalyzeRequest(responseTxt, true);
+            AnalyzeTodayRequest(responseTxt, true);
         }
     };
     xhr.send();
 }
 
-function AnalyzeRequest(responseTxt, updateDate)
+function AnalyzeTodayRequest(responseTxt, updateDate)
 {
     var jsonObject = JSON.parse(responseTxt);
     console.log(jsonObject);
-    SetWeatherInfo(jsonObject);
+    SetTodayWeatherInfo(jsonObject);
     if(updateDate == true)
         SetLastResponseDate();
     // console.log("request:"+updateDate?"oui":"non");
 }
 
-function SetWeatherInfo(jsonObject) {
-    var geoJson = jsonToGeoJson(jsonObject);
+function SetTodayWeatherInfo(jsonObject) {
+    var geoJson = ConvertTodayJsonToTodayGeoJson(jsonObject);
     var degres = '&#8451;';
     var spanDegres = '<span class="temp-degres-weather-panel">' + degres + '</span>';
+    var now = moment();
     var wpt = document.getElementById('weatherpaneltemp');
     var curDate = document.getElementById('CurrentDate');
     var weatherimgElement = document.getElementById('weatherimg');
@@ -198,13 +189,20 @@ function SetWeatherInfo(jsonObject) {
     // var classNameHour = 'Sky-hour-' + now.hour();
 
     var weather = geoJson.properties.weather.toLowerCase();
+
     if(weather == "clouds"){
-        weather = 'cloudy'
+        weather = 'cloudy';
+    }
+    else if(weather == "mist"){
+        weather = 'hazy';
+    }
+    else if(weather == "drizzle"){
+        weather = 'chancerain';
     }
     
     wpt.innerHTML = geoJson.properties.temperature + spanDegres + ' &#124; <span class="weather-city-panel">' + geoJson.properties.city + '</span>';
     weatherimgElement.classList.add('wu-'+weather);
-    curDate.innerHTML = '<span>' + moment().format('LL') + '</span>';
+    curDate.innerHTML = '<span>' + now.format('LL') + '</span>';
     // wpmm.innerHTML = '<p>Min: ' + geoJson.properties.min + degres + '</p><p>Max: ' + geoJson.properties.max + degres + '</p>' ;
     wtmin.innerHTML = '<span>' + geoJson.properties.min + degres + '</span>';
     wtmax.innerHTML = '<span>' + geoJson.properties.max + degres + '</span>';
@@ -220,36 +218,150 @@ function SetWeatherInfo(jsonObject) {
 }
 
 
-function jsonToGeoJson (weatherItem) {
+function ConvertTodayJsonToTodayGeoJson (todayJsonItem) {
     var feature = {
     type: "Feature",
     properties: {
-        iconId: weatherItem.weather[0].id,
-        city: weatherItem.name,
-        weather: weatherItem.weather[0].main,
-        description: weatherItem.weather[0].description,
-        temperature: Math.round(weatherItem.main.temp*10)/10,
-        min: weatherItem.main.temp_min,
-        max: weatherItem.main.temp_max,
-        humidity: weatherItem.main.humidity,
-        pressure: weatherItem.main.pressure,
-        windSpeed: weatherItem.wind.speed,
-        windDegrees: weatherItem.wind.deg,
-        windGust: weatherItem.wind.gust,
-        icon: parameters.WeatherIcon
-            + weatherItem.weather[0].icon  + parameters.WeatherIconExtension,
-        coordinates: [weatherItem.coord.Lon, weatherItem.coord.Lat],
-        country: weatherItem.sys.country
+        iconId: todayJsonItem.weather[0].id,
+        city: todayJsonItem.name,
+        weather: todayJsonItem.weather[0].main,
+        description: todayJsonItem.weather[0].description,
+        temperature: Math.round(todayJsonItem.main.temp*10)/10,
+        min: todayJsonItem.main.temp_min,
+        max: todayJsonItem.main.temp_max,
+        humidity: todayJsonItem.main.humidity,
+        pressure: todayJsonItem.main.pressure,
+        windSpeed: todayJsonItem.wind.speed,
+        windDegrees: todayJsonItem.wind.deg,
+        windGust: todayJsonItem.wind.gust,
+        cloudiness: todayJsonItem.clouds.all,
+        // icon: parameters.WeatherIcon
+        //     + todayJsonItem.weather[0].icon  + parameters.WeatherIconExtension,
+        coordinates: [todayJsonItem.coord.Lon, todayJsonItem.coord.Lat],
+        country: todayJsonItem.sys.country
     },
     geometry: {
         type: "Point",
-        coordinates: [weatherItem.coord.Lon, weatherItem.coord.Lat]
+        coordinates: [todayJsonItem.coord.Lon, todayJsonItem.coord.Lat]
     }
     };
 
     // returns object
     return feature;
 }
+
+
+function ConvertDayJsonToGeoJson(dayJsonItem){
+    var newJson = {
+        type : "PartDay",
+        IsDay: dayJsonItem.pod == "d" ? true : false,
+        forecastedDate : moment(dayJsonItem.dt),
+        calculationDate : moment(dayJsonItem, "YYYY-MM-DD HH:mm:SS"),    
+        properties :{
+            iconId : dayJsonItem.weather[0].id,
+            weather: dayJsonItem.weather[0].main,
+            description: dayJsonItem.weather[0].description,
+            temperature: Math.round(dayJsonItem.main.temp*10)/10,
+            min: dayJsonItem.main.temp_min,
+            max: dayJsonItem.main.temp_max,
+            humidity: dayJsonItem.main.humidity,
+            pressure: dayJsonItem.main.pressure,
+            windSpeed: dayJsonItem.wind.speed,
+            windDegrees: dayJsonItem.wind.deg,
+            cloudiness: dayJsonItem.clouds.all            
+        }
+    };
+}
+
+function AnalyseForescastJsonArray(forecastArray){
+    var filteredDayArray = new Array(forecastArray.length);
+    for(i = 0; i < forecastArray.length; i++){
+
+        var elementDay = {
+            dayDate: forecastArray[i].dayDate,
+            infoDay: GenerateWeatherInfoDay(forecastArray[i].dayWeatherTable)
+        };
+
+        filteredDayArray.push(elementDay);
+    }
+
+    return filteredDayArray;
+}
+
+function GenerateWeatherInfoDay(forecastWeatherElementArray){
+    var weatherInfoDay = {
+        tempMin: -1,
+        tempMax: -1,
+        midDayTemp: -1,
+        midDayWeather: null,
+        midDayWeatherDescription : null
+    };
+
+    for(i=0; i < forecastWeatherElementArray.length; i++){
+        if(i == 0){
+            weatherInfoDay.tempMin = forecastWeatherElementArray[i].properties.min;
+            weatherInfoDay.tempMax = forecastWeatherElementArray[i].properties.max;
+            weatherInfoDay.midDayTemp = forecastWeatherElementArray[i].properties.temperature;
+            weatherInfoDay.midDayWeather = forecastWeatherElementArray[i].properties.weather;
+            weatherInfoDay.midDayWeatherDescription = forecastWeatherElementArray[i].properties.description;
+        }
+        else{
+            if(forecastWeatherElementArray[i].properties.min < weatherInfoDay.tempMin){
+                weatherInfoDay.tempMin = forecastWeatherElementArray[i].properties.min;
+            }
+
+            if(forecastWeatherElementArray[i].properties.max > weatherInfoDay.tempMax){
+                weatherInfoDay.tempMax = forecastWeatherElementArray[i].properties.max;
+            }
+
+            // TODO Get hour moment == 12 am
+            if(forecastWeatherElementArray[i].IsDay == true && forecastWeatherElementArray[i].forecastedDate.hour() == 12){
+                weatherInfoDay.midDayTemp = forecastWeatherElementArray[i].properties.temperature;
+                weatherInfoDay.midDayWeather = forecastWeatherElementArray[i].properties.weather;
+                weatherInfoDay.midDayWeatherDescription = forecastWeatherElementArray[i].properties.description;
+            }
+        }
+    }
+}
+
+
+
+function ConvertForecastJsonToForescastJsonArray(forecastJsonItem) {
+    var forecastArray = new Array();
+    var max = forecastJsonItem.cnt;
+    var tab = new Array();
+    var currentDate;
+    for(i = 0; i < max; i++){
+        var element = ConvertTodayJsonToTodayGeoJson(forecastJsonItem.list[i]);
+        if(i == 0)
+        {
+            currentDate = element.forecastedDate;
+            tab.push(element);
+        }
+        else
+        {
+            var otherDate = element.forecastedDate;
+            
+            // if(currentday.format(parameters.DateFormat) == otherDate.format(parameters.DateFormat)){
+            if(currentDate.isSame(otherDate, 'day')){
+                tab.push(element);
+            }
+            else{
+                var forecastElement = {
+                    dayDate : currentDate,
+                    dayWeatherTable : tab
+                };
+
+                forecastArray.push(forecastElement);
+
+                currentDate = otherDate;
+                tab = new Array();
+                tab.push(element);
+            }
+        }
+    }
+}
+
 
 // function CheckDefaultLocation()
 // {

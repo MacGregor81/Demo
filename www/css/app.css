@@ -94,8 +94,8 @@ body:before {
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
+    line-height: 50px;
     color: #FFF;
     text-transform: uppercase;
     text-align: center;
@@ -104,9 +104,9 @@ body:before {
 
 .view {
     position: absolute;
-    top: 60px;
+    top: 50px;
     right: 0;
-    bottom: 60px;
+    bottom: 50px;
     left: 0px;
 }
 
@@ -140,7 +140,8 @@ body:before {
 }
 
 .temp-degres-weather-panel{
-    color: #12b122;
+    color: #07680f;
+    font-weight: bold;
 }
 
 .weather-city-panel {
@@ -166,7 +167,7 @@ body:before {
 
 .weather-line-panel-left{
     display: block;
-    width: 55%;
+    width: 60%;
     height: 100%;
     float: left;
 }
@@ -177,7 +178,7 @@ body:before {
 
 .weather-line-panel-right{
     display: block;
-    width: 45%;
+    width: 40%;
     height: 100%;
     float: left;
     text-align: center;
@@ -191,14 +192,14 @@ body:before {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     width: 40px;
-    height : 40px;
+    height : 50px;
     font-size: 1.1em;
 }
 
 .weather-min-panel{
     height: 50%;
     border-bottom: 1px solid white;
-    padding-bottom: 3px;
+    /* padding-bottom: 3px; */
 }
 
 .weather-max-panel{
@@ -212,6 +213,60 @@ body:before {
     font-size: 1.2em;
     font-weight: bold;
 }
+
+.forecast-weather-panel{
+    height: 300px;
+    border-radius: 25px;
+    margin-top: 10px;
+    margin-left : 10px;
+    margin-right : 10px;
+    left: 0;
+    right: 0;
+    bottom: 55px;
+    /* margin-top: 10px; */
+    background-color: blue;
+}
+
+.forecast-day-container{
+    margin: auto;
+    height: 80%;
+    width: 80%;
+
+/*  
+    max-width:100%;
+    max-height:100% */
+}
+
+.forecast-day-table{
+
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.forecast-day-row{
+    margin: 5px;
+    display: table-row;
+}
+
+.forecast-day-cell{
+    display: table-cell;
+    vertical-align: middle;
+    border: 3px solid white;
+    border-radius: 10px;
+    /* margin: 5px; */
+    padding: 5px;
+}
+
+/* .forecast-day{    
+    display: inline-block;
+    width: 150px;
+    width: 100px;
+    height : 100px;
+    margin: 15px;
+    border: 3px solid white;
+    border-radius: 10px;
+} */
 
 /* .Sky{
     float: left;
@@ -368,8 +423,8 @@ body:before {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
+    line-height: 50px;
     text-align: center;
     background-color: #20DC7B;
     overflow: hidden;
@@ -378,8 +433,8 @@ body:before {
 .nav a {
     display: block;
     width: 50%;
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
+    line-height: 50px;
     float: left;
     /* -moz-transition-duration: 0.3s;
     -o-transition-duration: 0.3s;
@@ -463,13 +518,13 @@ body:before {
 
 #icon-home{
     background:transparent url('../img/home.png') no-repeat;
-    background-size: 60px 60px;
+    background-size: 50px 50px;
     background-position: center;
 }
 
 #icon-settings{
     background:transparent url('../img/settings.png') no-repeat;
-    background-size: 60px 60px;
+    background-size: 50px 50px;
     background-position: center;
 }
 
